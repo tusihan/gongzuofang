@@ -1,0 +1,16 @@
+import pandas as pd
+import numpy
+data = pd.read_csv('P2P借贷的违约判别分类.csv',encoding='ISO-8859-1')
+x = data.iloc[:,1:39]
+y = data.iloc[:,0]
+x=x.values
+y=y.values
+from sklearn.linear_model import LogisticRegression as LR
+from sklearn.model_selection import train_test_split
+X_train,X_test,y_train,y_test = train_test_split(x,y,train_size=0.8,random_state=50)
+lr = LR(solver='liblinear') 
+lr.fit(X_train, y_train)
+y_predict=lr.predict(X_test)
+from sklearn.metrics import accuracy_score
+accuracy = accuracy_score(y_test, y_predict)
+print(accuracy)
