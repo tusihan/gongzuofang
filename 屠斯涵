@@ -1,0 +1,29 @@
+# -*- coding:utf-8 -*-
+from __future__ import division
+import pandas as pd
+import numpy as np
+import os
+
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+
+pwd = os.getcwd()
+os.chdir(os.path.dirname('E:\数据1\p2p.csv'))
+data = pd.read_csv(os.path.basename('数据1\p2p.csv'),encoding='gbk')
+
+
+data_x = data.iloc[:,1:40].values
+data_y = data.iloc[:,0].values
+
+x_train,x_test,y_train,y_test = train_test_split(data_x,data_y,test_size=0.2)
+
+
+from sklearn.linear_model import LogisticRegression as LR
+lr = LR() 
+lr.fit(x_train, y_train) 
+print(u'逻辑回归模型训练结束。')
+lr.predict(x_train)
+print(u'模型的平均正确率为：%s' % lr.score(x_train, y_train))
+print(u'模型的平均准确率（训练集，y=1）为：%s'% (sum(lr.predict(x_train)[i] == 1 for i,v in enumerate(y_train) if v == 1) / sum(1 for i,v in enumerate(y_train) if v == 1)))
+print(u'模型的平均准确率（检验集，y=1）为：%s'% (sum(lr.predict(x_test)[i] == 1 for i,v in enumerate(y_test) if v == 1) / sum(1 for i,v in enumerate(y_test) if v == 1)))
+
