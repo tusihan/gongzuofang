@@ -1,0 +1,26 @@
+# -*- coding:utf-8 -*-
+from __future__ import division
+import pandas as pd
+import numpy as np
+import os
+
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+pwd = os.getcwd()
+os.chdir(os.path.dirname('E:\数据1\p2p.csv'))
+data = pd.read_csv(os.path.basename('数据1\p2p.csv'),encoding='gbk')
+
+data_x = data.iloc[:,1:40].values
+data_y = data.iloc[:,0].values
+
+
+data=np.log(data['其它变量1'])
+x_train,x_test,y_train,y_test = train_test_split(data_x,data_y,test_size=0.2)
+
+from sklearn.linear_model import LogisticRegression as LR
+lr = LR() 
+lr.fit(x_train, y_train) 
+y_pred=lr.predict(x_test)
+print("准确率为：",accuracy_score(y_test,y_pred))
